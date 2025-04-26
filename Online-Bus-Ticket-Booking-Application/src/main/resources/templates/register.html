@@ -1,0 +1,142 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org" lang="en">
+
+<head>
+  <meta charset="UTF-8">
+  <title>Register</title>
+  <link rel="stylesheet" th:href="@{/css/navbar.css}">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
+  <style>
+    body {
+        font-family: sans-serif;
+        background-color: #f4f4f4;
+        margin: 0;
+        padding: 0;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        min-height: 100vh;
+        background-image: url('/images/inside.jpg');
+        background-size: cover;
+        background-repeat: no-repeat;
+    }
+
+    header{
+            position: fixed;
+            top: 0px;
+            width: 98%;
+        }
+
+    .container {
+        background-color: rgba(255, 255, 255, 0.8);
+        color: #333;
+        padding: 20px;
+        border-radius: 8px;
+        box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+        width: 400px;
+    }
+
+    h2 {
+        text-align: center;
+        color: #333;
+    }
+
+    .form-group {
+        margin-bottom: 15px;
+    }
+
+    label {
+        display: block;
+        margin-bottom: 5px;
+        color: #555;
+    }
+
+    input[type="text"],
+    input[type="email"],
+    input[type="password"] {
+        width: 100%;
+        padding: 10px;
+        border: 1px solid #ddd;
+        border-radius: 4px;
+        box-sizing: border-box;
+    }
+
+    .error-message {
+        color: red;
+        font-size: 0.9em;
+        margin-top: 5px;
+    }
+
+    button {
+        background-color: #007bff;
+        color: white;
+        padding: 10px 15px;
+        border: none;
+        border-radius: 4px;
+        cursor: pointer;
+        width: 100%;
+    }
+
+    button:hover {
+        background-color: #0056b3;
+    }
+
+    .login-link {
+        text-align: center;
+        display: block;
+        margin-top: 15px;
+        color: #007bff;
+        text-decoration: none;
+    }
+
+    .login-link:hover {
+        text-decoration: underline;
+    }
+  </style>
+</head>
+
+<body>
+<header>
+  <div class="logo">TamilNadu Transport</div>
+  <nav>
+    <ul>
+      <li><a th:href="@{/}">Home</a></li>
+<!--      <li><a th:href="@{/about}">About Us</a></li>-->
+<!--      <li><a th:href="@{/contact}">Contacts</a></li>-->
+<!--      <li><a th:href="@{/service}">Services</a></li>-->
+      <li><a href="#" class="fa fa-twitter"></a></li>
+      <li><a href="#" class="fa fa-facebook"></a></li>
+      <li><a href="#" class="fa fa-google"></a></li>
+      <li><a th:href="@{/admin/login}">Admin Login</a></li>
+    </ul>
+  </nav>
+</header>
+<div class="container">
+  <h2>Register</h2>
+  <form th:action="@{/auth/register}" th:object="${registerRequest}" method="post">
+    <div class="form-group">
+      <label for="username">Username:</label>
+      <input type="text" id="username" th:field="*{username}" required>
+      <p class="error-message" th:if="${#fields.hasErrors('username')}" th:errors="*{username}"></p>
+    </div>
+
+    <div class="form-group">
+      <label for="email">Email:</label>
+      <input type="email" id="email" th:field="*{email}" required>
+      <p class="error-message" th:if="${#fields.hasErrors('email')}" th:errors="*{email}"></p>
+    </div>
+
+    <div class="form-group">
+      <label for="password">Password:</label>
+      <input type="password" id="password" th:field="*{password}" required>
+      <p class="error-message" th:if="${#fields.hasErrors('password')}" th:errors="*{password}"></p>
+    </div>
+
+    <button type="submit">Register</button>
+  </form>
+  <a th:href="@{/auth/login}" class="login-link">Already have an account?
+    Login</a>
+</div>
+</body>
+
+</html>

@@ -1,0 +1,217 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+  <meta charset="UTF-8">
+  <title>Admin Dashboard</title>
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.2.3/dist/css/bootstrap.min.css" rel="stylesheet"
+        integrity="sha384-rbsA2VBKQhggwzxH7pPCaAqO46MgnOM80zW1RWuH61DGLwZJEdK2Kadq2F9CUG65" crossorigin="anonymous">
+  <link rel="stylesheet" th:href="@{/css/navbar.css}">
+  <script>
+    function logout() {
+        // We still need JavaScript for logout to remove the cookie
+        document.cookie = "jwtToken=; expires=Thu, 01 Jan 1970 00:00:00 UTC; path=/;";
+        window.location.href = "/auth/loginForm";
+    }
+  </script>
+  <style>
+    body {
+        font-family: sans-serif;
+        background-color: #f4f4f4;
+        margin: 0;
+        padding: 0;
+        background-image: url('/images/inside.jpg');
+        background-size: cover;
+        background-repeat: no-repeat;
+    }
+
+.logo a{
+  text-decoration: none;
+}
+
+#content-area {
+    padding: 1rem;
+}
+
+.section-header {
+    color: #007bff;
+    border-bottom: 2px solid #007bff;
+    padding-bottom: 0.5rem;
+    margin-bottom: 1rem;
+}
+
+section img {
+    width: 100%;
+    height: 500px;
+    margin-bottom: 1rem;
+}
+
+.dropdown {
+    position: relative;
+    display: inline-block;
+}
+
+.dropdown-content {
+    display: none;
+    position: absolute;
+    background-color: #f9f9f9;
+    min-width: 160px;
+    box-shadow: 0px 8px 16px 0px rgba(0, 0, 0, 0.2);
+    z-index: 1;
+}
+
+.dropdown-content a {
+    color: black;
+    padding: 12px 16px;
+    text-decoration: none;
+    display: block;
+}
+
+.dropdown-content a:hover {
+    background-color: #e9ecef;
+}
+
+.dropdown:hover .dropdown-content {
+    display: block;
+}
+  </style>
+  <style>
+    .admin-dashboard-container {
+        max-width: 960px;
+        margin: 20px auto;
+        background-color: white;
+        padding: 20px;
+        border-radius: 8px;
+        box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+    }
+
+    .admin-section {
+        margin-bottom: 20px;
+        padding-bottom: 15px;
+        border-bottom: 1px solid #eee;
+    }
+
+    .admin-section:last-child {
+        border-bottom: none;
+    }
+
+    .admin-section h3 {
+        color: #007bff;
+        margin-top: 0;
+        margin-bottom: 10px;
+    }
+
+    .admin-button{
+        padding: 8px 15px;
+        border: none;
+        border-radius: 4px;
+        cursor: pointer;
+        text-decoration: none;
+        display: inline-block;
+    }
+
+    .admin-button.edit {
+        background-color: #ffc107; /* Yellow for edit */
+        color: white;
+    }
+
+    .admin-button.delete {
+        background-color: #f44336; /* Red for delete */
+        color: white;
+    }
+
+    .admin-button.add {
+        background-color: #4caf50;
+        color: white;
+    }
+    .admin-button.view {
+        background-color: #0056b3;
+        color: white;
+    }
+
+    .admin-button:hover {
+        opacity: 0.8;
+    }
+  </style>
+</head>
+<body>
+<header>
+  <div class="logo"><a th:href="@{/admin/dashboard}">TamilNadu Transport</a></div>
+  <nav>
+    <ul>
+<!--      <li><a th:href="@{/about}">About Us</a></li>-->
+<!--      <li><a th:href="@{/contact}">Contacts</a></li>-->
+<!--      <li><a th:href="@{/feedback/form}">Feedback</a></li>-->
+<!--      <li><a th:href="@{/service}">Services</a></li>-->
+      <li class="dropdown">
+        <a href="#">Profile</a>
+        <div class="dropdown-content">
+          <a href="/profile/update">Update</a>
+          <a href="#" onclick="logout()">Logout</a>
+        </div>
+      </li>
+    </ul>
+  </nav>
+</header>
+<div class="admin-dashboard-container">
+  <h2>Admin Dashboard</h2>
+
+  <div class="admin-section">
+    <h3>Bus Management</h3>
+    <div class="admin-actions">
+      <a th:href="@{/admin/add}" class="admin-button">Add Bus</a>
+      <a th:href="@{/buses/viewAllBuses}" class="admin-button">View All Buses</a>
+    </div>
+  </div>
+
+<!--  <div class="admin-section">-->
+<!--    <h3>Schedule Management</h3>-->
+<!--    <div class="admin-actions">-->
+<!--      <a href="#" class="admin-button">Add Schedule</a>-->
+<!--      <a href="#" class="admin-button">View All Schedules</a>-->
+<!--    </div>-->
+<!--  </div>-->
+
+  <div class="admin-section">
+    <h3>Bus List with Actions</h3>
+    <table class="table">
+      <thead>
+      <tr>
+        <th>Bus Name</th>
+        <th>Bus Type</th>
+        <th>Total Seats</th>
+        <th>Actions</th>
+      </tr>
+      </thead>
+      <tbody>
+      <tr th:each="bus : ${buses}">
+        <td th:text="${bus.busName}"></td>
+        <td th:text="${bus.busType}"></td>
+        <td th:text="${bus.totalSeats}"></td>
+        <td>
+          <a th:href="@{/admin/schedules/editExisting/{busId}(busId=${bus.id})}" class="admin-button edit">Edit</a>
+<!--                  th:href="@{/buses/update/{busId}(busId=${bus.id})}"-->
+
+          <a href="#" class="admin-button delete" th:data-bus-id="${bus.id}" onclick="confirmDelete(this)">Delete</a>
+<!--                  th:href="@{/buses/delete/{busId}(busId=${bus.id})}"-->
+
+          <a th:href="@{/admin/schedules/add/{busId}(busId=${bus.id})}" class="admin-button add">Add Schedule</a>
+
+          <a th:href="@{/admin/schedules/view/{busId}(busId=${bus.id})}" class="admin-button view">View All Schedules</a>
+
+        </td>
+      </tr>
+      </tbody>
+    </table>
+  </div>
+
+</div>
+<script th:inline="javascript">
+  function confirmDelete(deleteButton) {
+      const busId = deleteButton.dataset.busId;
+      if (confirm('Are you sure you want to delete this bus and all its schedules?')) {
+          window.location.href = '/admin/buses/delete/' + busId;
+      }
+  }
+</script>
+</body>
+</html>

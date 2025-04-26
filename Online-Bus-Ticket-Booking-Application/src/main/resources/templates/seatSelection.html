@@ -1,0 +1,276 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org" lang="en">
+
+<head>
+  <meta charset="UTF-8">
+  <title>Seat Selection</title>
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.2.3/dist/css/bootstrap.min.css" rel="stylesheet">
+  <link rel="stylesheet" th:href="@{/css/navbar.css}">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
+  <script>
+    function logout() {
+        // We still need JavaScript for logout to remove the cookie
+        document.cookie = "jwtToken=; expires=Thu, 01 Jan 1970 00:00:00 UTC; path=/;";
+        window.location.href = "/auth/loginForm";
+    }
+  </script>
+  <style>
+    /* Basic CSS for layout and styling - You can extend this */
+    body {
+        font-family: sans-serif;
+        background-color: #f4f4f4;
+        margin: 0;
+        padding: 0;
+    }
+
+    .logo a{
+      text-decoration: none;
+    }
+
+    #content-area {
+        padding: 1rem;
+    }
+
+    .section-header {
+        color: #007bff;
+        border-bottom: 2px solid #007bff;
+        padding-bottom: 0.5rem;
+        margin-bottom: 1rem;
+    }
+
+    section img {
+        width: 100%;
+        height: 500px;
+        margin-bottom: 1rem;
+    }
+
+    .dropdown {
+        position: relative;
+        display: inline-block;
+    }
+
+    .dropdown-content {
+        display: none;
+        position: absolute;
+        background-color: #f9f9f9;
+        min-width: 160px;
+        box-shadow: 0px 8px 16px 0px rgba(0, 0, 0, 0.2);
+        z-index: 1;
+    }
+
+    .dropdown-content a {
+        color: black;
+        padding: 12px 16px;
+        text-decoration: none;
+        display: block;
+    }
+
+    .dropdown-content a:hover {
+        background-color: #e9ecef;
+    }
+
+    .dropdown:hover .dropdown-content {
+        display: block;
+    }
+
+    .dashboard-container {
+            max-width: 1200px; /* Adjust as needed */
+            margin: 20px auto;
+            background-color: white;
+            padding: 20px;
+            border-radius: 8px;
+            box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+        }
+
+        .search-form {
+            display: flex;
+            gap: 15px; /* Spacing between form elements */
+            align-items: center; /* Vertically align items in the row */
+        }
+
+        .form-group {
+            flex: 1; /* Allow form groups to take equal width */
+            margin-bottom: 0; /* Remove default bottom margin */
+        }
+
+        label {
+            display: block;
+            margin-bottom: 5px;
+            color: #555;
+            font-weight: bold;
+            font-size: 0.9em; /* Slightly smaller label */
+        }
+
+        input[type="text"],
+        input[type="date"] {
+            width: calc(100% - 20px); /* Adjust for padding and border */
+            padding: 10px;
+            border: 1px solid #ddd;
+            border-radius: 4px;
+            box-sizing: border-box;
+            font-size: 1em;
+        }
+
+        button[type="submit"] {
+            background-color: #ff8c00; /* Example orange color */
+            color: white;
+            padding: 12px 20px; /* Slightly larger button */
+            border: none;
+            border-radius: 4px;
+            cursor: pointer;
+            font-size: 1em;
+        }
+
+        button[type="submit"]:hover {
+            background-color: #e67e00;
+        }
+
+        /* Optional: Style for select dropdowns if you decide to use them */
+        select {
+            width: calc(100% - 20px);
+            padding: 10px;
+            border: 1px solid #ddd;
+            border-radius: 4px;
+            box-sizing: border-box;
+            font-size: 1em;
+        }
+  </style>
+  <style>
+    .bus-layout {
+     display: grid;
+     grid-template-columns: 60px 60px 30px 60px;
+     gap: 10px;
+     justify-content: center;
+     margin-top: 20px;
+ }
+
+ .bus-layout .seat:nth-child(4n+3) {
+     visibility: hidden;
+     pointer-events: none;
+     border: none;
+ }
+
+ .seat {
+     width: 60px;
+     height: 60px;
+     border: 1px solid #ccc;
+     display: flex;
+     justify-content: center;
+     align-items: center;
+     border-radius: 5px;
+     cursor: pointer;
+     font-size: 0.9em;
+ }
+
+     .available {
+         background-color: #e6ffe6;
+         color: #28a745;
+     }
+
+     .booked {
+         background-color: #f2f2f2;
+         color: #6c757d;
+         cursor: not-allowed;
+     }
+
+     .selected {
+         background-color: #007bff;
+         color: white;
+     }
+
+     #selected-seats {
+         margin-top: 20px;
+         font-weight: bold;
+     }
+
+     .book-now-button {
+         margin-top: 20px;
+     }
+  </style>
+  <script th:inline="javascript">
+    function toggleSeat(seatElement) {
+        if (seatElement.classList.contains('available')) {
+            seatElement.classList.toggle('selected');
+            updateSelectedSeats();
+        }
+    }
+
+    function updateSelectedSeats() {
+        const selectedSeats = document.querySelectorAll('.seat.selected');
+        const selectedSeatNumbers = Array.from(selectedSeats).map(seat => seat.textContent);
+        document.getElementById('selected-seats').textContent = 'Selected Seats: ' + selectedSeatNumbers.join(', ');
+        document.getElementById('selectedSeatsInput').value = selectedSeatNumbers.join(',');
+        document.getElementById('bookNowButton').disabled = selectedSeatNumbers.length === 0;
+    }
+
+    document.addEventListener('DOMContentLoaded', function() {
+        const seats = document.querySelectorAll('.seat');
+        seats.forEach(seat => {
+            seat.addEventListener('click', function() {
+                toggleSeat(this);
+            });
+        });
+    });
+  </script>
+</head>
+
+<body>
+<header>
+  <div class="logo"><a th:href="@{/dashboard}">TamilNadu Transport</a></div>
+  <nav>
+    <ul>
+      <!--      <li><a th:href="@{/}">Home</a></li>-->
+      <li class="dropdown">
+        <a>Tickets</a>
+        <div class="dropdown-content">
+          <a th:href="@{/reservation/reservations}">View/Cancel Ticket</a>
+        </div>
+      </li>
+      <li><a th:href="@{/about}">About Us</a></li>
+      <li><a th:href="@{/contact}">Contacts</a></li>
+      <li><a th:href="@{/feedback/form}">Feedback</a></li>
+      <li><a th:href="@{/service}">Services</a></li>
+      <li><a href="#" class="fa fa-twitter"></a></li>
+      <li><a href="#" class="fa fa-facebook"></a></li>
+      <li><a href="#" class="fa fa-google"></a></li>
+      <li class="dropdown">
+        <a href="#">Profile</a>
+        <div class="dropdown-content">
+          <a href="/profile/update">Update</a>
+          <a href="#" onclick="logout()">Logout</a>
+        </div>
+      </li>
+    </ul>
+  </nav>
+</header>
+<div class="container my-5">
+  <h2>Seat Selection</h2>
+  <p>Bus: <span th:text="${bus.busName}"></span> (<span th:text="${bus.busType}"></span>)</p>
+  <p>Schedule ID: <span th:text="${schedule.id}"></span></p>
+
+  <div class="bus-layout">
+    <div th:each="i : ${#numbers.sequence(0, allSeats.size() - 1)}"
+         th:with="seat=${allSeats[i]}"
+         th:id="'seat-' + ${seat}"
+         th:class="${availableSeats.contains(seat) ? 'seat available' : 'seat booked'}"
+         th:text="${seat}">
+    </div>
+  </div>
+
+  <div id="selected-seats">Selected Seats: </div>
+
+  <form th:action="@{/reservation/confirm}" method="post">
+    <input type="hidden" name="busId" th:value="${bus.id}">
+    <input type="hidden" name="scheduleId" th:value="${schedule.id}">
+    <input type="hidden" name="selectedSeats" id="selectedSeatsInput" value="">
+    <input type="hidden" name="source" id="source" value="${source}">
+    <input type="hidden" name="destination" id="destination" value="${destination}">
+    <input type="hidden" name="date" id="date" value="${date}">
+    <button type="submit" class="btn btn-primary book-now-button" id="bookNowButton" disabled>Book Now</button>
+  </form>
+
+  <a th:href="@{/reservation/buslist(source=${source}, destination=${destination}, date=${date})}" class="btn btn-secondary mt-3">Back to Bus List</a>
+</div>
+</body>
+
+</html>

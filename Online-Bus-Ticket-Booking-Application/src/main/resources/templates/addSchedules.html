@@ -1,0 +1,242 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+  <meta charset="UTF-8">
+  <title>Add New Schedules</title>
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.2.3/dist/css/bootstrap.min.css" rel="stylesheet">
+  <link rel="stylesheet" th:href="@{/css/navbar.css}">
+  <script>
+    function logout() {
+        // We still need JavaScript for logout to remove the cookie
+        document.cookie = "jwtToken=; expires=Thu, 01 Jan 1970 00:00:00 UTC; path=/;";
+        window.location.href = "/auth/loginForm";
+    }
+  </script>
+  <style>
+    body {
+        font-family: sans-serif;
+        background-color: #f4f4f4;
+        margin: 0;
+        padding: 0;
+        background-image: url('/images/inside.jpg');
+        background-size: cover;
+        background-repeat: no-repeat;
+    }
+
+.logo a{
+  text-decoration: none;
+}
+
+#content-area {
+    padding: 1rem;
+}
+
+.section-header {
+    color: #007bff;
+    border-bottom: 2px solid #007bff;
+    padding-bottom: 0.5rem;
+    margin-bottom: 1rem;
+}
+
+section img {
+    width: 100%;
+    height: 500px;
+    margin-bottom: 1rem;
+}
+
+.dropdown {
+    position: relative;
+    display: inline-block;
+}
+
+.dropdown-content {
+    display: none;
+    position: absolute;
+    background-color: #f9f9f9;
+    min-width: 160px;
+    box-shadow: 0px 8px 16px 0px rgba(0, 0, 0, 0.2);
+    z-index: 1;
+}
+
+.dropdown-content a {
+    color: black;
+    padding: 12px 16px;
+    text-decoration: none;
+    display: block;
+}
+
+.dropdown-content a:hover {
+    background-color: #e9ecef;
+}
+
+.dropdown:hover .dropdown-content {
+    display: block;
+}
+  </style>
+  <style>
+    .schedule-form {
+        border: 1px solid #ddd;
+        padding: 15px;
+        margin-bottom: 15px;
+        border-radius: 5px;
+        background-color: #f9f9f9;
+    }
+    .form-group {
+        margin-bottom: 10px;
+    }
+    .remove-schedule-button {
+        margin-top: 10px;
+    }
+  </style>
+</head>
+<body>
+<header>
+  <div class="logo"><a th:href="@{/admin/dashboard}">TamilNadu Transport</a></div>
+  <nav>
+    <ul>
+<!--      <li><a th:href="@{/about}">About Us</a></li>-->
+<!--      <li><a th:href="@{/contact}">Contacts</a></li>-->
+<!--      <li><a th:href="@{/feedback/form}">Feedback</a></li>-->
+<!--      <li><a th:href="@{/service}">Services</a></li>-->
+      <li class="dropdown">
+        <a href="#">Profile</a>
+        <div class="dropdown-content">
+          <a href="/profile/update">Update</a>
+          <a href="#" onclick="logout()">Logout</a>
+        </div>
+      </li>
+    </ul>
+  </nav>
+</header>
+<div class="container my-5">
+  <h2 style="color: white;">Add New Schedules for Bus: <span th:text="${busDto.busName}"></span></h2>
+  <form th:action="@{/admin/schedules/addNew}" method="post" th:object="${busDto}">
+    <input type="hidden" th:field="*{id}">
+    <input type="hidden" th:field="*{busName}">
+    <input type="hidden" th:field="*{busType}">
+    <input type="hidden" th:field="*{registrationNumber}">
+    <input type="hidden" th:field="*{totalSeats}">
+
+    <h3 style="color: white;">New Schedules</h3>
+    <div id="schedules-container">
+      <div class="schedule-form">
+        <h4>New Schedule</h4>
+        <div class="form-group">
+          <label th:for="schedules[0].source">Source:</label>
+          <input type="text" class="form-control" name="schedules[0].source">
+          <div th:if="${#fields.hasErrors('schedules[0].source')}" class="text-danger">
+            <p th:errors="*{schedules[0].source}">Source Error</p>
+          </div>
+        </div>
+        <div class="form-group">
+          <label th:for="schedules[0].destination">Destination:</label>
+          <input type="text" class="form-control" name="schedules[0].destination">
+          <div th:if="${#fields.hasErrors('schedules[0].destination')}" class="text-danger">
+            <p th:errors="*{schedules[0].destination}">Destination Error</p>
+          </div>
+        </div>
+        <div class="form-group">
+          <label th:for="schedules[0].scheduledDate">Schedule Date:</label>
+          <input type="date" class="form-control" name="schedules[0].scheduledDate">
+          <div th:if="${#fields.hasErrors('schedules[0].scheduledDate')}" class="text-danger">
+            <p th:errors="*{schedules[0].scheduledDate}">Destination Error</p>
+          </div>
+        </div>
+        <div class="form-group">
+          <label th:for="schedules[0].arrivalTime">Arrival Time:</label>
+          <input type="time" class="form-control" name="schedules[0].arrivalTime">
+          <div th:if="${#fields.hasErrors('schedules[0].arrivalTime')}" class="text-danger">
+            <p th:errors="*{schedules[0].arrivalTime}">Destination Error</p>
+          </div>
+        </div>
+        <div class="form-group">
+          <label th:for="schedules[0].departureTime">Departure Time:</label>
+          <input type="time" class="form-control" name="schedules[0].departureTime">
+          <div th:if="${#fields.hasErrors('schedules[0].departureTime')}" class="text-danger">
+            <p th:errors="*{schedules[0].departureTime}">Destination Error</p>
+          </div>
+        </div>
+        <div class="form-group">
+          <label th:for="schedules[0].price">Price:</label>
+          <input type="number" class="form-control" name="schedules[0].price">
+          <div th:if="${#fields.hasErrors('schedules[0].price')}" class="text-danger">
+            <p th:errors="*{schedules[0].price}">Destination Error</p>
+          </div>
+        </div>
+        <div class="form-group">
+          <label th:for="schedules[0].availableSeats">Available Seats:</label>
+          <input type="number" class="form-control" name="schedules[0].availableSeats">
+          <div th:if="${#fields.hasErrors('schedules[0].availableSeats')}" class="text-danger">
+            <p th:errors="*{schedules[0].availableSeats}">Destination Error</p>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <button type="button" id="add-schedule-button" class="btn btn-success">Add Schedule</button>
+
+    <button type="submit" class="btn btn-primary">Save New Schedules</button>
+    <a th:href="@{/admin/dashboard}" class="btn btn-secondary">Cancel</a>
+
+    <div th:if="${error}" class="alert alert-danger mt-3">
+      Please correct the errors above.
+    </div>
+  </form>
+</div>
+
+  <script th:inline="javascript">
+       document.addEventListener('DOMContentLoaded', function() {
+           const schedulesContainer = document.getElementById('schedules-container');
+           const addScheduleButton = document.getElementById('add-schedule-button');
+           let scheduleCount = schedulesContainer.querySelectorAll('.schedule-form').length;
+
+           addScheduleButton.addEventListener('click', function() {
+               const scheduleDiv = document.createElement('div');
+               scheduleDiv.classList.add('schedule-form');
+               scheduleDiv.innerHTML = `
+                   <h4>New Schedule</h4>
+                   <div class="form-group">
+                       <label for="schedules[${scheduleCount}].source">Source:</label>
+                       <input type="text" class="form-control" name="schedules[${scheduleCount}].source">
+                   </div>
+                   <div class="form-group">
+                       <label for="schedules[${scheduleCount}].destination">Destination:</label>
+                       <input type="text" class="form-control" name="schedules[${scheduleCount}].destination">
+                   </div>
+                   <div class="form-group">
+                       <label for="schedules[${scheduleCount}].scheduledDate">Schedule Date:</label>
+                       <input type="date" class="form-control" name="schedules[${scheduleCount}].scheduledDate">
+                   </div>
+                   <div class="form-group">
+                       <label for="schedules[${scheduleCount}].arrivalTime">Arrival Time:</label>
+                       <input type="time" class="form-control" name="schedules[${scheduleCount}].arrivalTime">
+                   </div>
+                   <div class="form-group">
+                       <label for="schedules[${scheduleCount}].departureTime">Departure Time:</label>
+                       <input type="time" class="form-control" name="schedules[${scheduleCount}].departureTime">
+                   </div>
+                   <div class="form-group">
+                       <label for="schedules[${scheduleCount}].price">Price:</label>
+                       <input type="number" class="form-control" name="schedules[${scheduleCount}].price">
+                   </div>
+                   <div class="form-group">
+                       <label for="schedules[${scheduleCount}].availableSeats">Available Seats:</label>
+                       <input type="number" class="form-control" name="schedules[${scheduleCount}].availableSeats">
+                   </div>
+                   <button type="button" class="btn btn-danger btn-sm remove-schedule-button">Remove</button>
+               `;
+               schedulesContainer.appendChild(scheduleDiv);
+
+               const removeButton = scheduleDiv.querySelector('.remove-schedule-button');
+               removeButton.addEventListener('click', function() {
+                   scheduleDiv.remove();
+               });
+
+               scheduleCount++;
+           });
+       });
+</script>
+
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.2.3/dist/js/bootstrap.bundle.min.js"></script>
+</body>
+</html>

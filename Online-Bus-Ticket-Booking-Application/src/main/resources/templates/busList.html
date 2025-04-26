@@ -1,0 +1,353 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org" lang="en">
+
+<head>
+  <meta charset="UTF-8">
+  <title>Bus List</title>
+  <link rel="stylesheet" th:href="@{/css/navbar.css}">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
+  <script>
+    function logout() {
+        // We still need JavaScript for logout to remove the cookie
+        document.cookie = "jwtToken=; expires=Thu, 01 Jan 1970 00:00:00 UTC; path=/;";
+        window.location.href = "/auth/loginForm";
+    }
+  </script>
+  <style>
+    body {
+        font-family: sans-serif;
+        background-color: #f4f4f4;
+        margin: 0;
+        padding: 0;
+        background-image: url('/images/inside.jpg');
+        background-size: cover;
+        background-repeat: no-repeat;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        min-height: 100vh;
+    }
+
+.logo a{
+  text-decoration: none;
+}
+
+#content-area {
+    padding: 1rem;
+}
+
+.section-header {
+    color: #007bff;
+    border-bottom: 2px solid #007bff;
+    padding-bottom: 0.5rem;
+    margin-bottom: 1rem;
+}
+
+section img {
+    width: 100%;
+    height: 500px;
+    margin-bottom: 1rem;
+}
+
+.dropdown {
+    position: relative;
+    display: inline-block;
+}
+
+.dropdown-content {
+    display: none;
+    position: absolute;
+    background-color: #f9f9f9;
+    min-width: 160px;
+    box-shadow: 0px 8px 16px 0px rgba(0, 0, 0, 0.2);
+    z-index: 1;
+}
+
+.dropdown-content a {
+    color: black;
+    padding: 12px 16px;
+    text-decoration: none;
+    display: block;
+}
+
+.dropdown-content a:hover {
+    background-color: #e9ecef;
+}
+
+.dropdown:hover .dropdown-content {
+    display: block;
+}
+  </style>
+  <style>
+
+    header {
+        position: fixed;
+        top: 0px;
+        width: 98%;
+    }
+
+    .container {
+        background-color: rgba(255, 255, 255, 0.8);
+        margin-top: 100px;
+        color: #333;
+        padding: 20px;
+        border-radius: 8px;
+        box-shadow: 0 0 10px rgba(0, 0, 0, 0);
+        width: 98%;
+        max-width: 1500px;
+        display: flex;
+<!--        justify-content: space-between;-->
+<!--        align-items: flex-start;-->
+    }
+
+    .filter-section {
+        width: 200px;
+        margin-right: 20px;
+    }
+
+    .bus-list-section {
+        flex-grow: 1;
+    }
+
+    .bus-item {
+        background-color: #fff;
+        border-radius: 8px;
+        padding: 15px;
+        margin-bottom: 10px;
+        box-shadow: 0 0 5px rgba(0, 0, 0, 0.05);
+        display: flex;
+        flex-direction: column; /* Change to column layout */
+        align-items: flex-start; /* Align items to the start */
+    }
+
+    .bus-details {
+        width: 20%;
+        margin-bottom: 10px; /* Add spacing between bus details and schedules */
+        margin-right: 20px;
+    }
+
+    .bus-name {
+        font-size: 1.2em;
+        font-weight: bold;
+        color: #0056b3;
+    }
+
+    .bus-type {
+        font-style: italic;
+        color: #666;
+    }
+
+    .schedule-item {
+        display: flex;
+        justify-content: space-between;
+        width: 100%;
+        padding: 5px 5px;
+        border-bottom: 1px solid #eee;
+        margin-bottom: 5px; /* Add spacing between schedule items */
+    }
+
+    .departure-time,
+    .arrival-time,.source,.destination,.price {
+        margin-right: 30px;
+    }
+
+    .price {
+        font-weight: bold;
+        color: #4CAF50;
+    }
+
+    .book-button {
+        margin-top: 10px;
+        background-color: #0056b3;
+        color: white;
+        padding: 10px 15px;
+        border: none;
+        border-radius: 5px;
+        cursor: pointer;
+        transition: background-color 0.3s;
+    }
+
+    .book-button:hover {
+        background-color: #003d82;
+    }
+
+    /* Styles for filter elements */
+    .filter-group {
+        margin-bottom: 15px;
+    }
+
+    .filter-group label {
+        display: block;
+        margin-bottom: 5px;
+        color: #555;
+        font-weight: bold;
+    }
+
+    .filter-group select,
+    .filter-group input {
+        width: 100%;
+        padding: 8px;
+        border: 1px solid #ccc;
+        border-radius: 4px;
+        box-sizing: border-box;
+    }
+
+    .error-message {
+        color: red;
+        margin-top: 10px;
+    }
+  </style>
+</head>
+
+<body>
+<header>
+  <div class="logo"><a th:href="@{/admin/dashboard}">TamilNadu Transport</a></div>
+  <nav>
+    <ul>
+<!--      <li><a th:href="@{/about}">About Us</a></li>-->
+<!--      <li><a th:href="@{/contact}">Contacts</a></li>-->
+<!--      <li><a th:href="@{/feedback/form}">Feedback</a></li>-->
+<!--      <li><a th:href="@{/service}">Services</a></li>-->
+      <li class="dropdown">
+        <a href="#">Profile</a>
+        <div class="dropdown-content">
+          <a href="/profile/update">Update</a>
+          <a href="#" onclick="logout()">Logout</a>
+        </div>
+      </li>
+    </ul>
+  </nav>
+</header>
+
+<div class="container">
+  <div class="filter-section">
+    <h2>Filter Buses</h2>
+    <div class="filter-group">
+      <label for="bus-type-filter">Bus Type:</label>
+      <select id="bus-type-filter">
+        <option value="all">All</option>
+        <option value="AC Seater">AC Seater</option>
+        <option value="AC Sleeper">AC Sleeper</option>
+        <option value="Non-AC Seater">Non-AC Seater</option>
+        <option value="Non-AC Sleeper">Non-AC Sleeper</option>
+      </select>
+    </div>
+    <div class="filter-group">
+      <label for="departure-time-filter">Departure Time:</label>
+      <select id="departure-time-filter">
+        <option value="all">All</option>
+        <option value="morning">Morning (6 AM - 12 PM)</option>
+        <option value="afternoon">Afternoon (12 PM - 5 PM)</option>
+        <option value="evening">Evening (5 PM - 9 PM)</option>
+        <option value="night">Night (9 PM - 6 AM)</option>
+      </select>
+    </div>
+    <div class="filter-group">
+      <label>Price Range:</label>
+      <input type="number" id="price-range-min" placeholder="Min Price">
+      <input type="number" id="price-range-max" placeholder="Max Price">
+    </div>
+  </div>
+
+  <div class="bus-list-section">
+    <h2>Bus List</h2>
+    <div th:if="${buses.isEmpty()}" class="error-message">
+      No buses found.
+    </div>
+    <div th:unless="${buses.isEmpty()}">
+      <div th:each="bus : ${buses}" class="bus-item">
+        <div th:each="schedule : ${bus.schedules}" class="schedule-item">
+          <div class="bus-details">
+            <p class="bus-name" th:text="${bus.busName}"></p>
+            <p class="bus-type" th:text="${bus.busType}"></p>
+          </div>
+          <p class="scheduled-date" th:text="${schedule.scheduledDate}"></p>
+          <p class="departure-time" th:text="${'Departure: ' + schedule.departureTime}"></p>
+          <p class="arrival-time" th:text="${'Arrival: ' + schedule.arrivalTime}"></p>
+          <p class="source" th:text="${schedule.source + ' &#8594; ' + schedule.destination}"></p>
+<!--          <p class="destination" th:text="${' &ndash;&gt; '+ schedule.destination}"></p>-->
+          <p class="price" th:text="${'₹' + schedule.price}"></p>
+<!--          <a th:href="@{/buses/{busId}(busId=${bus.id})}">-->
+<!--            <button class="book-button">Book Now</button>-->
+<!--          </a>-->
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<script>
+  function filterBuses() {
+      const buses = document.querySelectorAll('.bus-item');
+      const busTypeFilter = document.getElementById('bus-type-filter').value;
+      const departureTimeFilter = document.getElementById('departure-time-filter').value;
+      const priceRangeFilterMin = document.getElementById('price-range-min').value;
+      const priceRangeFilterMax = document.getElementById('price-range-max').value;
+
+      buses.forEach(bus => {
+          const busType = bus.querySelector('.bus-type').textContent;
+          let shouldDisplay = true;
+          let hasMatchingSchedule = false;
+
+          const schedules = bus.querySelectorAll('.schedule-item');
+          schedules.forEach(schedule => {
+              const departureTime = schedule.querySelector('.departure-time').textContent;
+              const price = parseFloat(schedule.querySelector('.price').textContent.replace('₹', ''));
+
+              let scheduleMatches = true;
+
+              // Bus Type Filter
+              if (busTypeFilter !== 'all' && busType !== busTypeFilter) {
+                  scheduleMatches = false;
+              }
+
+              // Departure Time Filter
+              if (departureTimeFilter !== 'all') {
+                  const departureTimeText = schedule.querySelector('.departure-time').textContent.split(': ')[1];
+                  const departureHour = parseInt(departureTimeText.split(':')[0]);
+
+                  if (departureTimeFilter === 'morning' && (departureHour < 6 || departureHour >= 12)) {
+                      scheduleMatches = false;
+                  } else if (departureTimeFilter === 'afternoon' && (departureHour < 12 || departureHour >= 17)) {
+                      scheduleMatches = false;
+                  } else if (departureTimeFilter === 'evening' && (departureHour < 17 || departureHour >= 21)) {
+                      scheduleMatches = false;
+                  } else if (departureTimeFilter === 'night' && (departureHour < 21 || departureHour >= 6)) {
+                      scheduleMatches = false;
+                  }
+              }
+
+              // Price Range Filter
+              if (priceRangeFilterMin !== '' && price < parseFloat(priceRangeFilterMin)) {
+                  scheduleMatches = false;
+              }
+
+              if (priceRangeFilterMax !== '' && price > parseFloat(priceRangeFilterMax)) {
+                  scheduleMatches = false;
+              }
+
+              if (scheduleMatches) {
+                  hasMatchingSchedule = true;
+                  schedule.style.display = 'flex';
+              } else {
+                  schedule.style.display = 'none';
+              }
+          });
+
+          if (shouldDisplay && hasMatchingSchedule) {
+              bus.style.display = 'flex';
+          } else {
+              bus.style.display = 'none';
+          }
+      });
+  }
+
+  // Add event listeners to filter elements
+  document.getElementById('bus-type-filter').addEventListener('change', filterBuses);
+  document.getElementById('departure-time-filter').addEventListener('change', filterBuses);
+  document.getElementById('price-range-min').addEventListener('input', filterBuses);
+  document.getElementById('price-range-max').addEventListener('input', filterBuses);
+</script>
+</body>
+
+</html>

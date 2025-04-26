@@ -1,0 +1,139 @@
+body {
+        font-family: sans-serif; /* Choose your preferred font */
+        margin: 0;
+        padding: 0;
+        box-sizing: border-box; /* Include padding and border in element's total width and height */
+    }
+
+    /* Header/Navigation */
+    header {
+        background-color: #f8f9fa; /* Light background for the header */
+        padding: 1rem 2rem;
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+    }
+
+    .logo {
+        font-size: 1.5rem;
+        font-weight: bold;
+        color: #007bff; /* Example primary color */
+    }
+
+    nav ul {
+        list-style: none;
+        padding: 0;
+        margin: 0;
+        display: flex;
+    }
+
+    nav li {
+        margin-left: 1.5rem;
+    }
+
+    nav a {
+        text-decoration: none;
+        color: #333; /* Darker text color */
+    }
+
+    /* Hero Section */
+    .content {
+        display: flex;
+        align-items: center;
+        padding: 4rem 2rem;
+    }
+
+    .content-left {
+        flex: 1;
+        padding-right: 2rem;
+    }
+
+    .content-title {
+        font-size: 3rem;
+        margin-bottom: 1rem;
+        color: #222;
+    }
+
+    .content-subtitle {
+        color: #666;
+        margin-bottom: 2rem;
+    }
+
+    .content-link a {
+        text-decoration: none;
+        padding: 0.75rem 1.5rem;
+        margin-right: 1rem;
+        border: none;
+        border-radius: 5px;
+        cursor: pointer;
+    }
+
+    .content-link .primary-content {
+        background-color: #007bff;
+        color: white;
+    }
+
+    .primary-content:hover {
+        background-color: #007bff;
+        color: white;
+        opacity: 0.7;
+    }
+
+    .content-link .secondary-content {
+        background-color: transparent;
+        color: #555;
+        border: 1px solid #ccc;
+    }
+    .secondary-content:hover{
+        background-color: grey;
+        color: white;
+    }
+    .content-right {
+        flex: 1;
+    }
+
+    .content-image-container {
+        background-color: #eee; /* Placeholder for the image background */
+        border-radius: 10px;
+        overflow: hidden; /* Clip any overflowing image */
+    }
+
+    .content-image {
+        display: block; /* Remove extra space below image */
+        max-width: 100%;
+        height: 100%;
+    }
+
+<!--    /* Steps Section */-->
+<!--    .steps-section {-->
+<!--        background-color: #f0f8ff; /* Light blue background */-->
+<!--        padding: 3rem 2rem;-->
+<!--        display: flex;-->
+<!--        justify-content: space-around;-->
+<!--        text-align: center;-->
+<!--    }-->
+
+<!--    .step {-->
+<!--        flex: 1;-->
+<!--        padding: 0 1rem;-->
+<!--    }-->
+
+<!--    .step h3 {-->
+<!--        color: #007bff;-->
+<!--        margin-bottom: 0.5rem;-->
+<!--    }-->
+
+<!--    .step p {-->
+<!--        color: #555;-->
+<!--    }-->
+
+    /* Footer (Example - adjust as needed) */
+    .footer {
+       position: fixed;
+       left: 0;
+       bottom: 0;
+       width: 100%;
+       background-color: #333;
+       color: white;
+       text-align: center;
+    }
