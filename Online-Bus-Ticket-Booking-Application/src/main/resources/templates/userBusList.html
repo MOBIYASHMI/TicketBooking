@@ -9,13 +9,11 @@
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
   <script>
     function logout() {
-        // We still need JavaScript for logout to remove the cookie
         document.cookie = "jwtToken=; expires=Thu, 01 Jan 1970 00:00:00 UTC; path=/;";
         window.location.href = "/auth/loginForm";
     }
   </script>
   <style>
-    /* Basic CSS for layout and styling - You can extend this */
     body {
         font-family: sans-serif;
         background-color: #f4f4f4;
@@ -74,7 +72,7 @@
     }
 
     .dashboard-container {
-            max-width: 1200px; /* Adjust as needed */
+            max-width: 1200px;
             margin: 20px auto;
             background-color: white;
             padding: 20px;
@@ -84,13 +82,13 @@
 
         .search-form {
             display: flex;
-            gap: 15px; /* Spacing between form elements */
-            align-items: center; /* Vertically align items in the row */
+            gap: 15px;
+            align-items: center;
         }
 
         .form-group {
-            flex: 1; /* Allow form groups to take equal width */
-            margin-bottom: 0; /* Remove default bottom margin */
+            flex: 1;
+            margin-bottom: 0;
         }
 
         label {
@@ -98,12 +96,12 @@
             margin-bottom: 5px;
             color: #555;
             font-weight: bold;
-            font-size: 0.9em; /* Slightly smaller label */
+            font-size: 0.9em;
         }
 
         input[type="text"],
         input[type="date"] {
-            width: calc(100% - 20px); /* Adjust for padding and border */
+            width: calc(100% - 20px);
             padding: 10px;
             border: 1px solid #ddd;
             border-radius: 4px;
@@ -112,9 +110,9 @@
         }
 
         button[type="submit"] {
-            background-color: #ff8c00; /* Example orange color */
+            background-color: #ff8c00;
             color: white;
-            padding: 12px 20px; /* Slightly larger button */
+            padding: 12px 20px;
             border: none;
             border-radius: 4px;
             cursor: pointer;
@@ -125,7 +123,6 @@
             background-color: #e67e00;
         }
 
-        /* Optional: Style for select dropdowns if you decide to use them */
         select {
             width: calc(100% - 20px);
             padding: 10px;

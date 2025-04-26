@@ -14,7 +14,6 @@ public class FeedbackRestController {
     @Autowired
     private FeedbackService feedbackService;
 
-    // Submit feedback via POST
     @PostMapping("/submit")
     public ResponseEntity<String> submitFeedback(@Valid @RequestBody FeedbackDto feedbackDto) {
         feedbackService.submitFeedback(feedbackDto);

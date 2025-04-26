@@ -79,19 +79,6 @@ public class AuthController {
         return "login";
     }
 
-//    @PostMapping("/authenticate")
-//    public ResponseEntity<?> authenticateUser(@RequestBody @Valid LoginRequest loginRequest){
-//        System.out.println("Login attempt for: "+loginRequest.getUsernameOrEmail());
-//        Authentication authentication=authenticationManager.authenticate(
-//                new UsernamePasswordAuthenticationToken(loginRequest.getUsernameOrEmail(),loginRequest.getPassword())
-//        );
-//        SecurityContextHolder.getContext().setAuthentication(authentication);
-//        User user= (User) authentication.getPrincipal();
-//        System.out.println("Authentication successful for: "+ user.getUsername());
-//        String jwt=jwtUtil.generateToken(user);
-//        return ResponseEntity.ok(new AuthenticationResponse(jwt));
-//    }
-
     @PostMapping("/authenticate")
     public String authenticateUser(@Valid LoginRequest loginRequest, HttpServletResponse response,RedirectAttributes redirectAttributes) { // Added HttpServletResponse
         System.out.println("Login attempt for: " + loginRequest.getUsernameOrEmail());
@@ -105,7 +92,6 @@ public class AuthController {
             String jwt = jwtUtil.generateToken(user);
             System.out.println("jwt token: "+jwt);
 
-            // Create an HTTP-only cookie
             Cookie jwtCookie = new Cookie("jwtToken", jwt);
             jwtCookie.setHttpOnly(true);
             jwtCookie.setMaxAge(86400); // Cookie expiration (e.g., 1 day)

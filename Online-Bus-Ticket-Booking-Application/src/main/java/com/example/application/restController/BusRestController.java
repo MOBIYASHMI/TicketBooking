@@ -16,14 +16,12 @@ public class BusRestController {
     @Autowired
     private BusService busService;
 
-    // Get all buses
     @GetMapping
     public ResponseEntity<List<BusDto>> getAllBuses() {
         List<BusDto> buses = busService.getAllBuses();
         return ResponseEntity.ok(buses);
     }
 
-    // Get a bus by ID
     @GetMapping("/{busId}")
     public ResponseEntity<?> getBusById(@PathVariable Long busId) {
         try {
@@ -34,7 +32,6 @@ public class BusRestController {
         }
     }
 
-    // Get buses by bus type
     @GetMapping("/type")
     public ResponseEntity<List<BusDto>> getBusesByType(@RequestParam String busType) {
         List<BusDto> buses = busService.viewByBusType(busType);

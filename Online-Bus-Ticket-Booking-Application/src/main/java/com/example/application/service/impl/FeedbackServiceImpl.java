@@ -23,15 +23,12 @@ public class FeedbackServiceImpl implements FeedbackService {
         Optional<Feedback> existingFeedback = feedbackRepository.findByEmail(feedbackDto.getEmail());
 
         if (existingFeedback.isPresent()) {
-            // Update existing feedback
             Feedback feedbackToUpdate = existingFeedback.get();
             feedbackToUpdate.setName(feedbackDto.getName());
             feedbackToUpdate.setSubject(feedbackDto.getSubject());
             feedbackToUpdate.setMessage(feedbackDto.getMessage());
-            // The submittedAt will be updated automatically upon saving
             feedbackRepository.save(feedbackToUpdate);
         } else {
-            // Save new feedback
             Feedback feedback = modelMapper.map(feedbackDto, Feedback.class);
             feedbackRepository.save(feedback);
         }

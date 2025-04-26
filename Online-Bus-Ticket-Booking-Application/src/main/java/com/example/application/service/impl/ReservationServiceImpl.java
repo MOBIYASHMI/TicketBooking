@@ -49,7 +49,6 @@ public class ReservationServiceImpl implements ReservationService {
         User user = userRepository.findById(userId)
                 .orElseThrow(() -> new UserNotFoundException("User not found with ID: " + userId));
 
-        // Check if the requested seats are already booked for this bus and schedule
         List<Reservation> existingReservations = reservationRepository.findByBusAndScheduleAndSeatNumbersIn(bus, schedule, seatNumbers);
         if (!existingReservations.isEmpty()) {
             List<Integer> alreadyBooked = existingReservations.stream()
@@ -62,7 +61,6 @@ public class ReservationServiceImpl implements ReservationService {
             }
         }
 
-        // Create a new reservation
         Reservation reservation = new Reservation();
         reservation.setBus(bus);
         reservation.setSchedule(schedule);
@@ -72,58 +70,9 @@ public class ReservationServiceImpl implements ReservationService {
 
         reservationRepository.save(reservation);
 
-        // Update the available seats in the Schedule (optional, depending on your design)
         schedule.setAvailableSeats(schedule.getAvailableSeats() - seatNumbers.size());
         scheduleRepository.save(schedule);
     }
-
-//    @Override
-//    public List<ReservationDto> getReservationsByUser(Long userId) throws UserNotFoundException {
-//        User user = userRepository.findById(userId)
-//                .orElseThrow(() -> new UserNotFoundException("User not found with ID: " + userId));
-//
-//        List<Reservation> reservations = reservationRepository.findByUser(user);
-//        return reservations.stream()
-//                .map(reservation -> {
-//                    ReservationDto dto = new ReservationDto();
-//                    BeanUtils.copyProperties(reservation, dto);
-//                    dto.setBusId(reservation.getBus().getId());
-//                    dto.setScheduleId(reservation.getSchedule().getId());
-//                    dto.setUserId(reservation.getUser().getId());
-//                    return dto;
-//                })
-//                .collect(Collectors.toList());
-//    }
-
-//    @Override
-//    public ReservationDto getReservationById(Long reservationId) {
-//        return reservationRepository.findById(reservationId)
-//                .map(reservation -> {
-//                    ReservationDto dto = new ReservationDto();
-//                    BeanUtils.copyProperties(reservation, dto);
-//                    dto.setBusId(reservation.getBus().getId());
-//                    dto.setScheduleId(reservation.getSchedule().getId());
-//                    dto.setUserId(reservation.getUser().getId());
-//                    return dto;
-//                })
-//                .orElse(null);
-//    }
-
-//    @Override
-//    public void cancelReservation(Long reservationId) {
-//        // Implement cancellation logic here:
-//        // 1. Retrieve the reservation.
-//        // 2. Potentially update available seats in the schedule.
-//        // 3. Delete the reservation.
-//        // Consider adding checks for user authorization to cancel.
-//        Reservation reservation = reservationRepository.findById(reservationId).orElse(null);
-//        if (reservation != null) {
-//            Schedule schedule = reservation.getSchedule();
-//            schedule.setAvailableSeats(schedule.getAvailableSeats() + reservation.getSeatNumbers().size());
-//            scheduleRepository.save(schedule);
-//            reservationRepository.deleteById(reservationId);
-//        }
-//    }
 
     @Override
     public List<Integer> getBookedSeats(Long busId, Long scheduleId) throws BusNotFoundException, ScheduleNotFoundException {
@@ -152,7 +101,6 @@ public class ReservationServiceImpl implements ReservationService {
                     dto.setBusId(reservation.getBus().getId());
                     dto.setScheduleId(reservation.getSchedule().getId());
                     dto.setUserId(reservation.getUser().getId());
-                    // Optionally fetch and set busName and scheduleDetails for display
                     Optional.ofNullable(reservation.getBus()).ifPresent(bus -> dto.setBusName(bus.getBusName()));
                     Optional.ofNullable(reservation.getSchedule()).ifPresent(schedule ->
                             dto.setScheduleDetails(schedule.getSource() + " to " + schedule.getDestination() + " on " + schedule.getScheduledDate()));
@@ -174,7 +122,6 @@ public class ReservationServiceImpl implements ReservationService {
 
         reservationRepository.deleteById(reservationId);
 
-        // Update the available seats in the Schedule
         schedule.setAvailableSeats(schedule.getAvailableSeats() + cancelledSeats.size());
         scheduleRepository.save(schedule);
     }

@@ -28,7 +28,6 @@ public class Reservation {
 
     private LocalDateTime bookingDateTime;
 
-    // Constructors
     public Reservation() {
         this.bookingDateTime = LocalDateTime.now();
     }
@@ -42,7 +41,6 @@ public class Reservation {
         this.bookingDateTime = bookingDateTime;
     }
 
-    // Getters and Setters
     public Long getId() {
         return id;
     }

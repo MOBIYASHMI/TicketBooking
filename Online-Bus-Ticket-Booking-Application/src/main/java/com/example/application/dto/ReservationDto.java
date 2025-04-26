@@ -14,7 +14,6 @@ public class ReservationDto {
     private String busName; // Optional: For display purposes
     private String scheduleDetails; // Optional: For display purposes
 
-    // Constructors
     public ReservationDto() {
     }
 

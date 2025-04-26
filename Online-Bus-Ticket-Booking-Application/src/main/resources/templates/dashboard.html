@@ -9,7 +9,6 @@
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
   <script>
         function logout() {
-            // We still need JavaScript for logout to remove the cookie
             document.cookie = "jwtToken=; expires=Thu, 01 Jan 1970 00:00:00 UTC; path=/;";
             window.location.href = "/auth/loginForm";
         }
@@ -19,7 +18,6 @@
          });
   </script>
   <style>
-    /* Basic CSS for layout and styling - You can extend this */
     body {
         font-family: sans-serif;
         background-color: #f4f4f4;
@@ -129,7 +127,6 @@
             background-color: #e67e00;
         }
 
-        /* Optional: Style for select dropdowns if you decide to use them */
         select {
             width: calc(100% - 20px);
             padding: 10px;
@@ -146,7 +143,6 @@
   <div class="logo"><a th:href="@{/dashboard}">TamilNadu Transport</a></div>
   <nav>
     <ul>
-<!--      <li><a th:href="@{/}">Home</a></li>-->
       <li class="dropdown">
         <a>Tickets</a>
         <div class="dropdown-content">
@@ -170,25 +166,6 @@
     </ul>
   </nav>
 </header>
-<!--<div class="container-fluid">-->
-<!--  <nav>-->
-<!--    <ul>-->
-<!--      <li><h3>Tamil Nadu Transportation</h3></li>-->
-<!--      <li><a href="/">Home</a></li>-->
-<!--      <li><a href="/about">About</a></li>-->
-<!--      <li><a href="/services">Services</a></li>-->
-<!--      <li><a href="/tickets">View/Cancel Tickets</a></li>-->
-<!--      <li><a href="/feedback">Feedback</a></li>-->
-<!--      <li><a href="/contact">Contact Us</a></li>-->
-<!--      <li id="profile-dropdown">-->
-<!--        <a href="#">Profile</a>-->
-<!--        <div id="profile-dropdown-content">-->
-<!--          <a href="/profile/update">Update Details</a>-->
-<!--          <a href="#" onclick="logout()">Logout</a>-->
-<!--        </div>-->
-<!--      </li>-->
-<!--    </ul>-->
-<!--  </nav>-->
 
     <div class="dashboard-container">
       <h2>Find Your Bus</h2>
@@ -227,61 +204,7 @@
       <p>Stay updated with the latest news and announcements.</p>
     </section>
   </div>
-</div>
 </body>
 
 </html>
 
-<!--    <section>-->
-<!--      <h2 class="section-header">Upcoming Trips</h2>-->
-<!--      <div class="image-space">-->
-<!--        Upcoming Trips Image-->
-<!--      </div>-->
-<!--      <p>Here's a summary of your upcoming bus trips:</p>-->
-<!--      <table>-->
-<!--        <thead>-->
-<!--        <tr>-->
-<!--          <th>Booking ID</th>-->
-<!--          <th>Date</th>-->
-<!--          <th>Route</th>-->
-<!--          <th>Departure Time</th>-->
-<!--          <th>Action</th>-->
-<!--        </tr>-->
-<!--        </thead>-->
-<!--        <tbody>-->
-<!--        <tr>-->
-<!--          <td>12345</td>-->
-<!--          <td>2024-03-15</td>-->
-<!--          <td>Mumbai to Pune</td>-->
-<!--          <td>10:00 AM</td>-->
-<!--          <td><a href="#">View Details</a></td>-->
-<!--        </tr>-->
-<!--        </tbody>-->
-<!--      </table>-->
-<!--    </section>-->
-
-
-<!--    nav {-->
-<!--        background-color: #007bff;-->
-<!--        color: white;-->
-<!--        padding: 0.5rem;-->
-<!--    }-->
-
-<!--    nav ul {-->
-<!--        list-style: none;-->
-<!--        padding: 0;-->
-<!--        margin: 0;-->
-<!--        display: flex;-->
-<!--        justify-content: space-around;-->
-<!--    }-->
-
-<!--    nav a {-->
-<!--        text-decoration: none;-->
-<!--        color: white;-->
-<!--        padding: 0.5rem 1rem;-->
-<!--        display: block;-->
-<!--    }-->
-
-<!--    nav a:hover {-->
-<!--        background-color: #e9ecef;-->
-<!--    }-->

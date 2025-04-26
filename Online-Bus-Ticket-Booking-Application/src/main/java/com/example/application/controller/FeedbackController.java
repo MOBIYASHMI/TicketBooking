@@ -23,7 +23,7 @@ public class FeedbackController {
     @GetMapping("/form")
     public String showFeedbackForm(Model model) {
         model.addAttribute("feedbackDto", new FeedbackDto());
-        return "feedback"; // Your feedback.html page
+        return "feedback";
     }
 
     @PostMapping("/submit")
@@ -31,12 +31,12 @@ public class FeedbackController {
                                  BindingResult result,
                                  RedirectAttributes redirectAttributes) {
         if (result.hasErrors()) {
-            return "feedback"; // Re-display the form with errors
+            return "feedback";
         }
 
         feedbackService.submitFeedback(feedbackDto);
         redirectAttributes.addFlashAttribute("message", "Thank you for your feedback!");
-        return "redirect:/feedback/form";  // Redirect to a success page
+        return "redirect:/feedback/form";
     }
 
 }

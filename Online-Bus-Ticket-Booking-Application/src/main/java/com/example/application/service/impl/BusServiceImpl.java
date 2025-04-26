@@ -132,57 +132,6 @@ public class BusServiceImpl implements BusService {
         return buses.stream().map(bus -> modelMapper.map(bus,BusDto.class)).collect(Collectors.toList());
     }
 
-//    @Override
-//    public void updateBusSchedules(BusDto busDto) throws BusNotFoundException {
-//        System.out.println("1");
-//        Bus existingBus = busRepository.findById(busDto.getId())
-//                .orElseThrow(() -> new BusNotFoundException("Bus not found with ID: " + busDto.getId()));
-//        System.out.println("2");
-//        List<Schedule> updatedSchedules = new ArrayList<>();
-//        System.out.println("3");
-//        if (busDto.getSchedules() != null) {
-//            System.out.println("4");
-//            for (ScheduleDto scheduleDto : busDto.getSchedules()) {
-//                System.out.println("5");
-//                Schedule schedule;
-//                if (scheduleDto.getId() != null && scheduleDto.getId() > 0) {
-//                    // Existing schedule, update it
-//                    schedule = scheduleRepository.findById(scheduleDto.getId())
-//                            .orElse(null); // Handle if schedule doesn't exist
-//                    if (schedule != null) {
-//                        schedule.setSource(scheduleDto.getSource());
-//                        schedule.setDestination(scheduleDto.getDestination());
-//                        schedule.setScheduledDate(scheduleDto.getScheduledDate());
-//                        schedule.setArrivalTime(LocalTime.parse(scheduleDto.getArrivalTime()));
-//                        schedule.setDepartureTime(LocalTime.parse(scheduleDto.getDepartureTime()));
-//                        schedule.setPrice(scheduleDto.getPrice());
-//                        schedule.setAvailableSeats(scheduleDto.getAvailableSeats());
-//                        schedule.setBus(existingBus); // Ensure association
-//                        updatedSchedules.add(schedule);
-//                        System.out.println("6");
-//                    }
-//                } else {
-//                    // New schedule, create it
-//                    schedule = new Schedule();
-//                    schedule.setSource(scheduleDto.getSource());
-//                    schedule.setDestination(scheduleDto.getDestination());
-//                    schedule.setScheduledDate(scheduleDto.getScheduledDate());
-//                    schedule.setArrivalTime(LocalTime.parse(scheduleDto.getArrivalTime()));
-//                    schedule.setDepartureTime(LocalTime.parse(scheduleDto.getDepartureTime()));
-//                    schedule.setPrice(scheduleDto.getPrice());
-//                    schedule.setAvailableSeats(scheduleDto.getAvailableSeats());
-//                    schedule.setBus(existingBus); // Associate with the bus
-//                    updatedSchedules.add(schedule);
-//                    System.out.println("7");
-//                }
-//            }
-//        }
-//        // Save all the updated and new schedules
-//        scheduleRepository.saveAll(updatedSchedules);
-//        System.out.println("8");
-//
-//    }
-
     @Transactional
     @Override
     public void addNewSchedules(BusDto busDto) throws BusNotFoundException {

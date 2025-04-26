@@ -39,11 +39,11 @@ public class BusController {
     public String getBusById(@PathVariable Long busId, Model model){
         try {
             BusDto bus = busService.getByBusId(busId);
-            model.addAttribute("bus", bus); // Corrected attribute name
-            return "seatBooking"; //  Assuming "seatBooking.html" handles this
+            model.addAttribute("bus", bus);
+            return "seatBooking";
         } catch (BusNotFoundException e) {
             model.addAttribute("error", "Bus not found with ID: " + busId);
-            return "busList"; //  Return to bus list on error
+            return "busList";
         }
     }
 

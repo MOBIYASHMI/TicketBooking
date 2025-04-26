@@ -10,7 +10,6 @@ public class ScheduleDto {
 
     private Long id;
 
-//    @Positive(message = "Bus ID must be a positive number")
     @Null(message = "Bus ID should be null when creating a new bus")
     private Long busId;
 
@@ -40,7 +39,6 @@ public class ScheduleDto {
     @Positive(message = "Available seats must be positive number")
     private Integer availableSeats;
 
-//    @JsonBackReference
     @JsonIgnoreProperties("schedules")
     private BusDto bus;
 

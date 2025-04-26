@@ -26,8 +26,7 @@ public class BusDto {
     @Positive(message = "Total seats must be positive number")
     private Integer totalSeats;
 
-    @Valid // Important: Validate the nested ScheduleDto objects
-//    @JsonManagedReference
+    @Valid
     private List<ScheduleDto> schedules;
 
     public BusDto() {

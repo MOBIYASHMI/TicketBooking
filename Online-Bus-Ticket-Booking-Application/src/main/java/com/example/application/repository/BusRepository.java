@@ -11,5 +11,4 @@ import java.util.Optional;
 public interface BusRepository extends JpaRepository<Bus,Long> {
     List<Bus> findByBusType(String busType);
     Optional<Bus> findByBusName(String busName);
-//    Optional<Bus> findByBusId(Long busId);
 }

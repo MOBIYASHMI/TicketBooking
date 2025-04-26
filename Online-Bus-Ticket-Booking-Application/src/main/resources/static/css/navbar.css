@@ -1,13 +1,12 @@
 body {
-        font-family: sans-serif; /* Choose your preferred font */
+        font-family: sans-serif;
         margin: 0;
         padding: 0;
-        box-sizing: border-box; /* Include padding and border in element's total width and height */
+        box-sizing: border-box;
     }
 
-    /* Header/Navigation */
     header {
-        background-color: #f8f9fa; /* Light background for the header */
+        background-color: #f8f9fa;
         padding: 1rem 2rem;
         display: flex;
         justify-content: space-between;
@@ -17,7 +16,7 @@ body {
     .logo {
         font-size: 1.5rem;
         font-weight: bold;
-        color: #007bff; /* Example primary color */
+        color: #007bff;
     }
 
     nav ul {
@@ -33,10 +32,9 @@ body {
 
     nav a {
         text-decoration: none;
-        color: #333; /* Darker text color */
+        color: #333;
     }
 
-    /* Hero Section */
     .content {
         display: flex;
         align-items: center;
@@ -93,41 +91,17 @@ body {
     }
 
     .content-image-container {
-        background-color: #eee; /* Placeholder for the image background */
+        background-color: #eee;
         border-radius: 10px;
-        overflow: hidden; /* Clip any overflowing image */
+        overflow: hidden;
     }
 
     .content-image {
-        display: block; /* Remove extra space below image */
+        display: block;
         max-width: 100%;
         height: 100%;
     }
 
-<!--    /* Steps Section */-->
-<!--    .steps-section {-->
-<!--        background-color: #f0f8ff; /* Light blue background */-->
-<!--        padding: 3rem 2rem;-->
-<!--        display: flex;-->
-<!--        justify-content: space-around;-->
-<!--        text-align: center;-->
-<!--    }-->
-
-<!--    .step {-->
-<!--        flex: 1;-->
-<!--        padding: 0 1rem;-->
-<!--    }-->
-
-<!--    .step h3 {-->
-<!--        color: #007bff;-->
-<!--        margin-bottom: 0.5rem;-->
-<!--    }-->
-
-<!--    .step p {-->
-<!--        color: #555;-->
-<!--    }-->
-
-    /* Footer (Example - adjust as needed) */
     .footer {
        position: fixed;
        left: 0;

@@ -23,10 +23,7 @@ public class UserDetailsServiceImpl implements UserDetailsService {
         if (userOptional.isEmpty()){
             userOptional=userRepository.findByEmail(usernameOrEmail);
         }
-//        User user = userOptional.orElseThrow(() ->
-//                new UsernameNotFoundException("User not found with username or email: " + usernameOrEmail)
-//        );
-//        return user;
+
         if (userOptional.isEmpty()) {
             SecurityContextHolder.clearContext();
             // Instead of 500 error, it will gracefully fail during login

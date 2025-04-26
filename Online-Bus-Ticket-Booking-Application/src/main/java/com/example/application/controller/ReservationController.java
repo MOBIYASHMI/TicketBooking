@@ -137,11 +137,6 @@ public class ReservationController {
             redirectAttributes.addFlashAttribute("errorMessage", "User not found. Please log in again.");
             return "redirect:/auth/login";
         }
-//        } catch (Exception e) {
-//            redirectAttributes.addFlashAttribute("errorMessage", "An error occurred during booking: " + e.getMessage());
-//            return "redirect:/reservation/seats?busId=" + busId + "&scheduleId=" + scheduleId +
-//                    "&source=" + source + "&destination=" + destination + "&date=" + date;
-//        }
     }
 
     @GetMapping("/reservations")
@@ -167,91 +162,8 @@ public class ReservationController {
         } catch (ReservationNotFoundException e) {
             redirectAttributes.addFlashAttribute("errorMessage", e.getMessage());
         }
-//        } catch (Exception e) {
-//            redirectAttributes.addFlashAttribute("errorMessage", "An error occurred while cancelling the reservation.");
-//        }
+
         return "redirect:/reservation/reservations";
     }
 
 }
-
-//    @PostMapping("/reservation/book")
-//    public String bookSeats(@RequestParam Long busId,
-//                            @RequestParam Long scheduleId,
-//                            @RequestParam String selectedSeats,
-//                            RedirectAttributes redirectAttributes) {
-//        Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
-//        String currentUsername = authentication.getName(); // Get logged-in username
-//        // Assuming you have a way to get the User ID from the username
-//        // This might involve a UserService to fetch the User entity
-//        // For simplicity, let's assume you have a method in UserService:
-//        User userDto = userRepository.findByUsername(currentUsername)
-//                .orElseThrow(()-> new UserNotFoundException("User not found"));
-//        if (userDto == null || userDto.getId() == null) {
-//            redirectAttributes.addFlashAttribute("errorMessage", "User not found. Please log in again.");
-//            return "redirect:/auth/login";
-//        }
-//        Long userId = userDto.getId();
-//
-//        List<Integer> seatsToBook = Arrays.stream(selectedSeats.split(","))
-//                .map(String::trim)
-//                .map(Integer::parseInt)
-//                .collect(Collectors.toList());
-//
-//        try {
-//            reservationService.bookSeats(busId, scheduleId, seatsToBook, userId);
-//            redirectAttributes.addFlashAttribute("message", "Booking successful!");
-//            return "redirect:/dashboard"; // Redirect to user dashboard or booking confirmation page
-//        } catch (BusNotFoundException | ScheduleNotFoundException e) {
-//            redirectAttributes.addFlashAttribute("errorMessage", e.getMessage());
-//            return "redirect:/buslist?source=" + // Redirect back to bus list with search criteria
-//                    // You'll need to pass the source, destination, and date again
-//                    "&destination=" +
-//                    "&date=";
-//        } catch (SeatAlreadyBookedException e) {
-//            redirectAttributes.addFlashAttribute("errorMessage", e.getMessage());
-//            return "redirect:/buslist?source=" +
-//                    "&destination=" +
-//                    "&date=";
-//        } catch (UserNotFoundException e) {
-//            redirectAttributes.addFlashAttribute("errorMessage", "User not found. Please log in again.");
-//            return "redirect:/auth/login";
-//        } catch (Exception e) {
-//            redirectAttributes.addFlashAttribute("errorMessage", "An error occurred during booking: " + e.getMessage());
-//            return "redirect:/buslist?source=" +
-//                    "&destination=" +
-//                    "&date=";
-//        }
-//    }
-//
-//    @GetMapping("/user/reservations")
-//    public String viewUserReservations(Model model) {
-//        Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
-//        String currentUsername = authentication.getName();
-//        UserDto userDto = userService.findByUsername(currentUsername);
-//        if (userDto == null || userDto.getId() == null) {
-//            model.addAttribute("errorMessage", "User not found. Please log in again.");
-//            return "error";
-//        }
-//        Long userId = userDto.getId();
-//
-//        try {
-//            List<ReservationDto> reservations = reservationService.getReservationsByUser(userId);
-//            model.addAttribute("reservations", reservations);
-//            return "userReservations"; // Create a userReservations.html page
-//        } catch (UserNotFoundException e) {
-//            model.addAttribute("errorMessage", e.getMessage());
-//            return "error";
-//        }
-//    }
-//
-//    @PostMapping("/reservation/cancel")
-//    public String cancelReservation(@RequestParam Long reservationId, RedirectAttributes redirectAttributes) {
-//        // In a real application, you should also verify if the logged-in user owns this reservation
-//        reservationService.cancelReservation(reservationId);
-//        redirectAttributes.addFlashAttribute("message", "Reservation cancelled successfully!");
-//        return "redirect:/user/reservations";
-//    }
-//
-//    @Autowired
-//    private UserService userService; // Assuming you have a UserService and UserDto

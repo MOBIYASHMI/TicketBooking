@@ -9,13 +9,11 @@
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
   <script>
     function logout() {
-        // We still need JavaScript for logout to remove the cookie
         document.cookie = "jwtToken=; expires=Thu, 01 Jan 1970 00:00:00 UTC; path=/;";
         window.location.href = "/auth/loginForm";
     }
   </script>
   <style>
-    /* Basic CSS for layout and styling - You can extend this */
     body {
         font-family: sans-serif;
         background-color: #f4f4f4;

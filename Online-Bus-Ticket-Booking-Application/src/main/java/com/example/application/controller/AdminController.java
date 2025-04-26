@@ -137,7 +137,7 @@ public class AdminController {
             return "viewSchedules";
         } catch (BusNotFoundException ex) {
             model.addAttribute("errorMessage", "Bus not found with ID: " + busId);
-            return "error"; // Or redirect to an error page
+            return "error";
         }
     }
 
